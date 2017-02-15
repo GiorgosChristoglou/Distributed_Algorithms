@@ -1,6 +1,6 @@
 .SUFFIXES: .erl .beam
 
-MODULES = system6 process app lossyp2plinks beb
+MODULES = system6 process app lossyp2plinks beb rb
 
 .PHONY: clean
 clean:

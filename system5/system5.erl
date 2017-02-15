@@ -20,7 +20,7 @@ start() ->
         List = [Pl_Id | Pl_List],
         NPL_Map = maps:put(Pid, Pl_Id, Pl_Map),   
         [ Pl ! {bind, NPL_Map} || Pl <- List ],
-        [ Pl ! {task1, start, 0, 10000} || Pl <- List]  
+        [ Pl ! {task1, start, 100, 3000} || Pl <- List]  
     end. 
 
   termination(N) -> 

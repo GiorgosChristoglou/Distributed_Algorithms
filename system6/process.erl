@@ -8,10 +8,12 @@ start(P_alias) ->
       % Create components. 
       App = spawn(app, start, [P_alias, System]),
       Beb = spawn(beb, start, []),
+      Erb = spawn(rb, start, []),
       Pl = spawn(lossyp2plinks, start, [Beb]),
 
-      Beb ! {bind, Pl, App, Plist},
-      App ! {bind, Beb, Plist, self()},
+      Beb ! {bind, Pl, Erb, Plist},
+      Erb ! {bind, App, Beb}, 
+      App ! {bind, Erb, Plist, self()},
       System ! {pl_id, Pl, self()}
   end.
 

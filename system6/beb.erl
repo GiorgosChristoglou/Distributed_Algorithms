@@ -4,16 +4,17 @@
 
 start() -> 
   receive 
-    {bind, Pl, App, Plist} -> next(Plist, App, Pl)
+    {bind, Pl, Rb, Plist} -> next(Plist, Rb, Pl)
   end.
 
-next(Plist, App, Pl) -> 
+next(Plist, Rb, Pl) -> 
   receive 
     {task1, start, MaxMessages, Timeout} ->
-      App ! {beb_deliver, MaxMessages, Timeout};
-    {beb_broadcast, Pid} ->
-      [Pl ! {pl_send, RPid, Pid} || RPid <- Plist];
-    {pl_deliver, Pid} ->
-      App ! {beb_deliver, Pid}
-  end,
-  next(Plist, App, Pl).
+      Rb ! {task1 , start, MaxMessages, Timeout};
+    {beb_broadcast, Pid, M_Id} ->
+      [Pl ! {pl_send, RPid, Pid, M_Id} || RPid <- Plist];
+    {pl_deliver, Pid, M_Id} ->
+      Rb ! {beb_deliver, Pid, M_Id}
+  end, 
+  next(Plist, Rb, Pl).
+
